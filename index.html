@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <title>Movies</title>
+</head>
+
+<body class="salom">
+    <main>
+        <section>
+            <div class="container py-4">
+                <h2 class="text-center mb-4">Movies catalog</h2>
+
+                <div class="row">
+                    <div class="col-4 position-relative">
+                        <div class="position-sticky w-100" style="top: 30px;">
+                            <form class="mb-5 form">
+                                <input type="text" class="form-control form-control-sm mb-2 movie__search" aria-describedby="Search for movies" placeholder="Search for movies">
+
+                                <input type="number" class="form-control form-control-sm mb-2 movie__rating" placeholder="IMDB rating" min="0" max="10" step="0.1">
+
+                                <input type="number" class="form-control form-control-sm mb-2 movie__year" placeholder="Year" min="0" max="2023" step="1">
+
+                                <select class="form-select form-select-sm mb-2 movie__categories" aria-label="Default select example">
+                                    <option selected value="all">All</option>
+                                </select>
+
+                                <select class="form-select form-select-sm mb-2 movie__select" aria-label="Default select example">
+                                    <option selected value="none">none</option>
+                                    <option value="rating-high-low">Rating(First high)</option>
+                                    <option value="rating-low-high">Rating(First low)</option>
+                                    <option value="year-high-low">year(First high)</option>
+                                    <option value="year-low-high">Year(First low)</option>
+                                    <option value="a-z">A-Z</option>
+                                    <option value="z-a">Z-A</option>
+                                </select>
+
+                                <button type="submit" class="btn btn-primary btn-sm w-100">Submit</button>
+                            </form>
+
+                            <h3 class="text-center">Bookmarked movies</h3>
+
+                            <ul class="list-group bookmarked">
+
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div class="col-8">
+
+                        <h3 class="fs-5">Search result:
+                            <span class="render__result">0</span>/
+                            <span class="result">0</span>
+                        </h3>
+
+                        <div class="alert alert-success alert-dismissible p-2 fade show" role="alert">
+                            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                            <button type="button" class="btn-close btn-sm p-0 h-100 pe-3" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <ul class="pagination justify-content-center pagination__list flex-wrap">
+
+                        </ul>
+
+                        <div class="row row-cols-2 movies_wrapper">
+
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+
+
+
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title m_title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body m_body" id="modalBody">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <template id="movie_card">
+        <div class="col mb-4">
+            <div class="card h-100">
+                <img  src="./images/img1.jpg" class="card-img-top" style="max-height: 200px; object-fit: cover; object-position: center;" alt="...">
+                <div class="card-body">
+                    <h4 class="card-title text-truncate card__heading" style="max-width: 100%;">Card title sfjksjadf dsfhxgdf dfh gfhgfh fjf jgfjfgj gdsf sdf</h4>
+                    
+                    <div class="fs-5 fw-bold">
+                        <img src="./images/plus.svg" alt="">
+                        <span class="movie__year">2018</span>
+                    </div>
+                    <div class="fs-5 fw-bold">
+                        <img src="./images/plus.svg" alt="">
+                        <span class="movie__rating">8.7</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="#" class="btn btn-outline-danger movie__link">Watch trailer</a>
+                        
+                        <button type="button" class="btn btn-outline-primary moreinfo_btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            More info
+                        </button>
+                        
+                        <button class="btn btn-outline-success btn_bookmark" type="button">Bookmark</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="bookmarkedTemplate">
+        <li class="list-group-item p-3">
+            <h4 class="d-inline-block text-truncate h5 bookmark__title" style="max-width: 100%;" >Pokemon</h4>
+            <div class="d-flex justify-content-between mt-3">
+                <a href="#" class="btn btn-outline-danger movie__link">Watch trailer</a>
+                
+                <button type="button" class="btn btn-outline-primary moreinfo_btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    More info
+                </button>
+                
+                <button class="btn btn-danger btn-sm d-block bookmark__btn" type="button">Remove</button>
+            </div>
+        </li>   
+    </template>
+
+    <template id="btnTemp">
+        <li class="page-item">
+            <button class="page-link btn__title">1</button>
+        </li>
+    </template>
+
+
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/movies.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
